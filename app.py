@@ -29,7 +29,7 @@ def get_post(post_id):
         abort(404)
     return post
 
-@app.route('/<int:post_id>')
+@app.route('/empresa/<int:post_id>')
 def post(post_id):
     post = get_post(post_id)
     return render_template('post.html', post=post)
@@ -131,3 +131,21 @@ def create2():
             return redirect(url_for('index'))
 
     return render_template('createEscola.html')
+
+#obtendo apenas um post
+
+def get_post2(post_id):
+    conn = get_db_connection()
+    post = conn.execute('SELECT * FROM escola WHERE id = ?',
+                        (post_id,)).fetchone()
+
+
+    conn.close()
+    if post is None:
+        abort(404)
+    return post
+
+@app.route('/escola/<int:post_id>')
+def post2(post_id):
+    post = get_post2(post_id)
+    return render_template('post2.html', post=post)
